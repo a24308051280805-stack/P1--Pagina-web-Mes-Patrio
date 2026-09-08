@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Septiembre: Tradición y Patria</title>
+    <!-- Fuentes elegantes -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- VARIABLES DE COLOR --- */
+        :root {
+            --verde: #006847;
+            --blanco: #ffffff;
+            --rojo: #CE1126;
+            --gris-fondo: #f4f4f4;
+            --texto: #2d3436;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--gris-fondo);
+            color: var(--texto);
+            line-height: 1.6;
+        }
+
+        /* --- SECCIÓN HERO (CON TU IMAGEN PROPIA) --- */
+        .hero {
+            height: 100vh;
+            /* El linear-gradient oscurece un poco tu foto para que las letras blancas se lean bien */
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('mexico2.png') center/cover no-repeat; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-bottom: 8px solid var(--verde);
+        }
+
+        .hero h1 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: clamp(2.5rem, 8vw, 4.5rem); 
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 15px rgba(0,0,0,0.8);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 10px rgba(0,0,0,0.8);
+        }
+
+        .btn-inicio {
+            padding: 15px 35px;
+            background-color: var(--rojo);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-inicio:hover {
+            transform: scale(1.1);
+            background-color: var(--verde);
+        }
+
+        /* --- NAVEGACIÓN --- */
+        nav {
+            background: white;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--verde);
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        nav a:hover { color: var(--rojo); }
+
+        /* --- CONTENEDOR Y SECCIONES --- */
+        .container { max-width: 1000px; margin: auto; padding: 60px 20px; }
+        
+        .titulo-seccion { 
+            text-align: center; 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2.5rem; 
+            margin-bottom: 40px;
+            color: var(--verde);
+        }
+
+        /* --- LÍNEA DE TIEMPO --- */
+        .timeline { border-left: 4px solid var(--verde); padding-left: 20px; position: relative; }
+        .timeline-item { margin-bottom: 40px; position: relative; opacity: 0; transform: translateX(-20px); transition: 0.6s; }
+        .timeline-item.activo { opacity: 1; transform: translateX(0); }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute; left: -28px; top: 5px;
+            width: 12px; height: 12px;
+            background: var(--rojo); border-radius: 50%; border: 3px solid white;
+        }
+
+        .timeline-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .timeline-card h3 { color: var(--rojo); margin-bottom: 5px; }
+
+        /* --- PERSONAJES --- */
+        .grid-personajes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card {
+            background: white; padding: 30px; border-radius: 10px;
+            border-top: 5px solid var(--verde); transition: 0.3s; text-align: center;
+        }
+        .card:hover { transform: translateY(-10px); border-top-color: var(--rojo); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+        /* --- MITOS INTERACTIVOS --- */
+        .mito-box {
+            background: #fff; margin-bottom: 15px; padding: 20px;
+            border-radius: 8px; border-left: 5px solid var(--verde); cursor: pointer; transition: 0.3s;
+        }
+        .respuesta { display: none; margin-top: 10px; color: #555; padding-top: 10px; border-top: 1px dashed #ccc; }
+
+        /* --- BOTÓN SUBIR --- */
+        #btnArriba {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--verde); color: white; border: none;
+            padding: 12px 18px; border-radius: 50%; cursor: pointer;
+            display: none; z-index: 1001;
+        }
+
+        footer { background: #222; color: white; text-align: center; padding: 40px; margin-top: 50px; border-top: 5px solid var(--rojo); }
+
+    </style>
+</head>
+<body>
+
+    <!-- HERO SECTION (Aquí es donde se carga mexico.jpg) -->
+    <header class="hero">
+        <h1>Septiembre Mexicano</h1>
+        <p>Orgullo, Historia y Tradición</p>
+        <a href="#timeline" class="btn-inicio">Comenzar Recorrido</a>
+    </header>
+
+    <!-- NAVEGACIÓN -->
+    <nav>
+        <a href="#timeline">Fechas</a>
+        <a href="#personajes">Héroes</a>
+        <a href="#mitos">Mitos</a>
+    </nav>
+
+    <div class="container">
+        
+        <!-- LÍNEA DE TIEMPO -->
+        <section id="timeline">
+            <h2 class="titulo-seccion">Línea del Tiempo</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-card">
+                        <h3>Inicio del Movimiento (1810 - 1811)</h3>
+                        <p><strong>16 de septiembre de 1810:</strong> Miguel Hidalgo da el Grito de Dolores e inicia el levantamiento armado.</p>
+                        <p><strong>28 de septiembre de 1810:</strong> Toma de la Alhóndiga de Granaditas en Guanajuato.</p>
+                        <p><strong>17 de enero de 1811:</strong> Los insurgentes sufren una gran derrota en la Batalla de Puente de Calderón.</p>
+                        <p><strong>Julio de 1811:</strong> Miguel Hidalgo, Ignacio Allende y Juan Aldama son fusilados por el ejército realista.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-card">
+                        <h3> Organización y expansión (1811 - 1815)</h3>
+                        <p><strong>1811:</strong>  José María Morelos y Pavón toma el mando del ejército en el sur del país.</p>
+                        <p><strong>1812:</strong> Morelos y sus tropas logran resistir el famoso Sitio de Cuautla durante 72 días.</p>
+                        <p><strong>Septiembre de 1813:</strong>  Morelos lee los Sentimientos de la Nación en el Congreso de Chilpancingo.</p>
+                        <p><strong>Octubre de 1814:</strong>  Se promulga la Constitución de Apatzingán, la primera del movimiento insurgente.</p>
+                        <p><strong>Diciembre de 1815:</strong>  Morelos es capturado y fusilado en San Cristóbal Ecatepec.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-card">
+                        <h3>Resistencia y guerra de guerrillas (1815 - 1820)</h3>
+                        <p><strong>1816:</strong>  Vicente Guerrero y Guadalupe Victoria mantienen viva la lucha mediante ataques rápidos en las montañas del sur y el este.</p>
+                        <p><strong>Abril de 1817:</strong>  El militar español Francisco Javier Mina llega a México para unirse a la causa insurgente.</p>
+                        <p><strong>Noviembre de 1817:</strong>  Mina es capturado y fusilado por las tropas del rey.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-card">
+                        <h3>Consumación (1821)</h3>
+                        <p><strong>Febrero de 1821:</strong>  Agustín de Iturbide y Vicente Guerrero hacen las paces en el Abrazo de Acatempan.</p>
+                        <p><strong>24 de febrero de 1821:</strong>  Se firma el Plan de Iguala, que une a los dos ejércitos bajo las Tres Garantías (Religión, Independencia y Unión).</p>
+                        <p><strong>Agosto de 1821:</strong>  Se firman los Tratados de Córdoba, donde España reconoce formalmente la independencia.</p>
+                        <p><strong>27 de septiembre de 1821:</strong>  El Ejército Trigarante entra triunfante a la Ciudad de México, logrando la independencia total.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PERSONAJES -->
+        <section id="personajes" style="margin-top: 80px;">
+            <h2 class="titulo-seccion">Héroes Ilustres</h2>
+            <div class="grid-personajes">
+                <div class="card">
+                    <h3>Miguel Hidalgo</h3>
+                    <p>El iniciador del movimiento insurgente y Padre de la Patria.</p>
+                </div>
+                <div class="card">
+                    <h3>Josefa Ortiz</h3>
+                    <p>Valiente mujer que alertó a los insurgentes sobre el peligro.</p>
+                </div>
+                <div class="card">
+                    <h3>José M. Morelos</h3>
+                    <p>Gran líder militar y autor de los Sentimientos de la Nación.</p>
+                </div>
+                <div class="card">
+                    <h3>Ignacio Allende</h3>
+                    <p>Militar de carrera y co conspirador clave en la primera etapa de la lucha junto a Hidalgo.</p>
+                </div>
+                <div class="card">
+                    <h3>Vicente Guerrero</h3>
+                    <p>Insurgente que mantuvo viva la resistencia en el sur y pactó el Abrazo de Acatempan para consumar la independencia.</p>
+                </div>
+                <div class="card">
+                    <h3>Agustín de Iturbide</h3>
+                    <p>Militar realista que después se unió a los insurgentes y firmó el Plan de Iguala para lograr la independencia definitiva. </p>
+                </div>
+                <div class="card">
+                    <h3>Leona Vicario</h3>
+                    <p>: Financista y informante clave de los insurgentes, considerada una de las primeras periodistas de México. </p>
+                </div>
+                <div class="card">
+                    <h3>Juan Aldama</h3>
+                    <p>Capitán militar que participó en las juntas secretas de Querétaro y acompañó a Hidalgo al inicio de la guerra. </p>
+                </div>
+                <div class="card">
+                    <h3>Guadalupe Victoria</h3>
+                    <p>Su verdadero nombre era Miguel Fernández Félix; peleó en el sur y años más tarde se convirtió en el primer presidente de México. </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MITOS -->
+        <section id="mitos" style="margin-top: 80px;">
+            <h2 class="titulo-seccion">Mitos y Verdades</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Haz clic para descubrir la verdad:</p>
+            
+            <div class="mito-box" onclick="toggleMito(this)">
+                <strong>El Grito ocurrió a las 11 de la noche?</strong>
+                <div class="respuesta">
+                    En realidad ocurrió en la madrugada del 16 de septiembre. Porfirio Díaz cambió la celebración a la noche del 15 para festejar también su cumpleaños.
+                </div>
+            </div>
+
+            <div class="mito-box" onclick="toggleMito(this)">
+                <strong>Existió realmente "El Pípila"?</strong>
+                <div class="respuesta">
+                    Históricamente se duda de su existencia individual; representa el valor colectivo de los mineros que ayudaron en la toma de la Alhóndiga.
+                </div>
+            </div>
+
+             <div class="mito-box" onclick="toggleMito(this)">
+                <strong>El repique de la campana por Hidalgo</strong>
+                <div class="respuesta">
+                    Quien realmente tocó la campana fue José Galván, el campanero oficial de la parroquia. Mientras él llamaba al pueblo, Hidalgo daba los discursos y organizaba a la gente en el atrio.
+                </div>
+            </div>
+
+             <div class="mito-box" onclick="toggleMito(this)">
+                <strong>Retratos reales de los héroes</strong>
+                <div class="respuesta">
+                    No existen pinturas hechas en vida de ellos. El retrato famoso de Hidalgo se pintó muchos años después de su muerte, usando como modelo a un sacerdote belga. El retrato de "La Corregidora" también fue una recreación artística posterior.
+                </div>
+            </div>
+
+             <div class="mito-box" onclick="toggleMito(this)">
+                <strong> La fecha exacta del festejo</strong>
+                <div class="respuesta">
+                    El levantamiento real ocurrió en la madrugada del 16 de septiembre. Existe el mito urbano de que el presidente Porfirio Díaz cambió la celebración a la noche del 15 para hacerla coincidir con el día de su propio cumpleaños, aunque los festejos nocturnos ya se hacían desde antes.
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <button id="btnArriba" onclick="subir()">↑</button>
+
+    <footer>
+        <p>¡Viva México! - Barrón Pando Kevin Zaid &copy; 5to J</p>
+    </footer>
+
+    <script>
+        // Animación al bajar el scroll
+        window.addEventListener('scroll', () => {
+            const items = document.querySelectorAll('.timeline-item');
+            items.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                if(rect.top < window.innerHeight * 0.85) {
+                    item.classList.add('activo');
+                }
+            });
+
+            // Botón subir
+            const btn = document.getElementById('btnArriba');
+            window.scrollY > 400 ? btn.style.display = "block" : btn.style.display = "none";
+        });
+
+        // Interactividad Mitos
+        function toggleMito(el) {
+            const res = el.querySelector('.respuesta');
+            res.style.display = (res.style.display === "block") ? "none" : "block";
+            el.style.borderColor = (res.style.display === "block") ? "var(--rojo)" : "var(--verde)";
+        }
+
+        function subir() { window.scrollTo({top: 0, behavior: 'smooth'}); }
+    </script>
+</body>
+</html>
