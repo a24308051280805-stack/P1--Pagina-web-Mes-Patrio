@@ -3,328 +3,902 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Septiembre: Tradición y Patria</title>
-    <!-- Fuentes elegantes -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
+
     <style>
-        /* --- VARIABLES DE COLOR --- */
-        :root {
-            --verde: #006847;
-            --blanco: #ffffff;
-            --rojo: #CE1126;
-            --gris-fondo: #f4f4f4;
-            --texto: #2d3436;
+        /* =========================
+           RESET
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
 
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--gris-fondo);
-            color: var(--texto);
-            line-height: 1.6;
-        }
-
-        /* --- SECCIÓN HERO (CON TU IMAGEN PROPIA) --- */
-        .hero {
-            height: 100vh;
-            /* El linear-gradient oscurece un poco tu foto para que las letras blancas se lean bien */
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url('mexico2.png') center/cover no-repeat; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #080b12;
             color: white;
-            text-align: center;
-            padding: 20px;
-            border-bottom: 8px solid var(--verde);
         }
 
-        .hero h1 { 
-            font-family: 'Playfair Display', serif; 
-            font-size: clamp(2.5rem, 8vw, 4.5rem); 
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 15px rgba(0,0,0,0.8);
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 58px;
+            z-index: 1000;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 25px;
+
+            background: rgba(8, 11, 18, 0.95);
+            border-bottom: 1px solid rgba(255,255,255,.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-links button {
+            border: none;
+            background: transparent;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .nav-links button:hover,
+        .nav-links button.active {
+            background: rgba(255,255,255,.12);
+        }
+
+
+        /* =========================
+           SISTEMA SPA
+        ========================= */
+
+        .view {
+            display: none;
+
+            position: fixed;
+
+            top: 58px;
+            left: 0;
+
+            width: 100%;
+            height: calc(100vh - 58px);
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            animation: viewIn .3s ease;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes viewIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* =========================
+           INICIO
+        ========================= */
+
+        #view-inicio {
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            height: calc(100vh - 58px);
+
+            overflow: hidden;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(120, 0, 0, .35),
+                    transparent 45%
+                ),
+                linear-gradient(
+                    135deg,
+                    #07130c,
+                    #111,
+                    #300707
+                );
+        }
+
+        #view-inicio.active {
+            display: flex;
+        }
+
+        .hero {
+            width: min(900px, 90%);
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 7vw, 80px);
+            margin-bottom: 20px;
         }
 
         .hero p {
-            font-size: 1.5rem;
+            font-size: 18px;
+            opacity: .8;
             margin-bottom: 30px;
-            text-shadow: 1px 1px 10px rgba(0,0,0,0.8);
         }
 
-        .btn-inicio {
-            padding: 15px 35px;
-            background-color: var(--rojo);
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 50px;
-            transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .btn-inicio:hover {
-            transform: scale(1.1);
-            background-color: var(--verde);
-        }
-
-        /* --- NAVEGACIÓN --- */
-        nav {
-            background: white;
-            padding: 15px;
-            position: sticky;
-            top: 0;
+        .hero-buttons {
             display: flex;
             justify-content: center;
-            gap: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1000;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
-        nav a {
-            text-decoration: none;
-            color: var(--verde);
+        .hero-buttons button {
+            border: none;
+            padding: 13px 22px;
+            border-radius: 10px;
+            cursor: pointer;
+
+            background: white;
+            color: #111;
+
             font-weight: bold;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            transition: 0.3s;
+
+            transition: transform .2s;
         }
 
-        nav a:hover { color: var(--rojo); }
+        .hero-buttons button:hover {
+            transform: translateY(-3px);
+        }
 
-        /* --- CONTENEDOR Y SECCIONES --- */
-        .container { max-width: 1000px; margin: auto; padding: 60px 20px; }
-        
-        .titulo-seccion { 
-            text-align: center; 
-            font-family: 'Playfair Display', serif; 
-            font-size: 2.5rem; 
+
+        /* =========================
+           CONTENIDO GENERAL
+        ========================= */
+
+        .container {
+            width: min(1200px, 92%);
+            margin: auto;
+            padding: 50px 0;
+        }
+
+        .section-title {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .section-description {
+            opacity: .7;
             margin-bottom: 40px;
-            color: var(--verde);
         }
 
-        /* --- LÍNEA DE TIEMPO --- */
-        .timeline { border-left: 4px solid var(--verde); padding-left: 20px; position: relative; }
-        .timeline-item { margin-bottom: 40px; position: relative; opacity: 0; transform: translateX(-20px); transition: 0.6s; }
-        .timeline-item.activo { opacity: 1; transform: translateX(0); }
-        
-        .timeline-item::before {
-            content: '';
-            position: absolute; left: -28px; top: 5px;
-            width: 12px; height: 12px;
-            background: var(--rojo); border-radius: 50%; border: 3px solid white;
+
+        /* =========================
+           TIMELINE
+        ========================= */
+
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: auto;
         }
 
-        .timeline-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .timeline-card h3 { color: var(--rojo); margin-bottom: 5px; }
+        .tl-era {
+            margin-bottom: 45px;
+            padding: 25px;
 
-        /* --- PERSONAJES --- */
-        .grid-personajes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card {
-            background: white; padding: 30px; border-radius: 10px;
-            border-top: 5px solid var(--verde); transition: 0.3s; text-align: center;
-        }
-        .card:hover { transform: translateY(-10px); border-top-color: var(--rojo); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+            border-radius: 15px;
 
-        /* --- MITOS INTERACTIVOS --- */
-        .mito-box {
-            background: #fff; margin-bottom: 15px; padding: 20px;
-            border-radius: 8px; border-left: 5px solid var(--verde); cursor: pointer; transition: 0.3s;
-        }
-        .respuesta { display: none; margin-top: 10px; color: #555; padding-top: 10px; border-top: 1px dashed #ccc; }
-
-        /* --- BOTÓN SUBIR --- */
-        #btnArriba {
-            position: fixed; bottom: 20px; right: 20px;
-            background: var(--verde); color: white; border: none;
-            padding: 12px 18px; border-radius: 50%; cursor: pointer;
-            display: none; z-index: 1001;
+            background: rgba(255,255,255,.05);
+            border: 1px solid rgba(255,255,255,.08);
         }
 
-        footer { background: #222; color: white; text-align: center; padding: 40px; margin-top: 50px; border-top: 5px solid var(--rojo); }
+        .tl-era h2 {
+            margin-bottom: 10px;
+        }
 
+        .tl-era p {
+            line-height: 1.7;
+            opacity: .8;
+        }
+
+
+        /* =========================
+           PERSONAJES
+        ========================= */
+
+        .heroes-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+
+            height: calc(100vh - 158px);
+
+            gap: 20px;
+
+            min-height: 0;
+        }
+
+        .heroes-sidebar {
+            overflow-y: auto;
+
+            background: rgba(255,255,255,.05);
+            border-radius: 15px;
+            padding: 15px;
+        }
+
+        .heroes-sidebar button {
+            width: 100%;
+
+            border: none;
+            background: transparent;
+            color: white;
+
+            padding: 13px;
+            margin-bottom: 8px;
+
+            text-align: left;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+        }
+
+        .heroes-sidebar button:hover {
+            background: rgba(255,255,255,.1);
+        }
+
+        .hero-detail {
+            overflow-y: auto;
+
+            background: rgba(255,255,255,.05);
+
+            border-radius: 15px;
+
+            padding: 30px;
+        }
+
+        .hero-detail h2 {
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        .hero-detail p {
+            line-height: 1.8;
+            opacity: .8;
+        }
+
+
+        /* =========================
+           MITOS
+        ========================= */
+
+        .accordion {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .accordion-item {
+            margin-bottom: 12px;
+
+            background: rgba(255,255,255,.05);
+
+            border-radius: 12px;
+
+            overflow: hidden;
+        }
+
+        .accordion-question {
+            width: 100%;
+
+            border: none;
+
+            background: transparent;
+            color: white;
+
+            padding: 20px;
+
+            text-align: left;
+
+            font-size: 17px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .accordion-answer {
+            display: none;
+
+            padding: 0 20px 20px;
+
+            line-height: 1.7;
+
+            opacity: .75;
+        }
+
+        .accordion-item.open .accordion-answer {
+            display: block;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            margin-top: 60px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            opacity: .6;
+
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            nav {
+                padding: 0 12px;
+            }
+
+            .logo {
+                font-size: 14px;
+            }
+
+            .nav-links {
+                gap: 2px;
+            }
+
+            .nav-links button {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .heroes-layout {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .heroes-sidebar {
+                max-height: 180px;
+            }
+
+            .hero-detail {
+                min-height: 400px;
+            }
+        }
     </style>
 </head>
+
+
 <body>
 
-    <!-- HERO SECTION (Aquí es donde se carga mexico.jpg) -->
-    <header class="hero">
-        <h1>Septiembre Mexicano</h1>
-        <p>Orgullo, Historia y Tradición</p>
-        <a href="#timeline" class="btn-inicio">Comenzar Recorrido</a>
-    </header>
 
-    <!-- NAVEGACIÓN -->
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
     <nav>
-        <a href="#timeline">Fechas</a>
-        <a href="#personajes">Héroes</a>
-        <a href="#mitos">Mitos</a>
+
+        <div class="logo">
+            🇲🇽 Septiembre
+        </div>
+
+        <div class="nav-links">
+
+            <button
+                data-view="inicio"
+                class="active"
+                onclick="showView('inicio')">
+                Inicio
+            </button>
+
+            <button
+                data-view="fechas"
+                onclick="showView('fechas')">
+                Fechas
+            </button>
+
+            <button
+                data-view="personajes"
+                onclick="showView('personajes')">
+                Personajes
+            </button>
+
+            <button
+                data-view="mitos"
+                onclick="showView('mitos')">
+                Mitos
+            </button>
+
+        </div>
+
     </nav>
 
-    <div class="container">
-        
-        <!-- LÍNEA DE TIEMPO -->
-        <section id="timeline">
-            <h2 class="titulo-seccion">Línea del Tiempo</h2>
+
+
+    <!-- =========================
+         VISTA INICIO
+    ========================= -->
+
+    <section
+        id="view-inicio"
+        class="view active">
+
+        <div class="hero">
+
+            <h1>
+                Septiembre:<br>
+                Tradición y Patria 🇲🇽
+            </h1>
+
+            <p>
+                Conoce la historia, las fechas,
+                los personajes y las tradiciones
+                de la Independencia de México.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button
+                    onclick="showView('fechas')">
+                    📅 Ver fechas
+                </button>
+
+                <button
+                    onclick="showView('personajes')">
+                    👤 Conocer personajes
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         VISTA FECHAS
+    ========================= -->
+
+    <section
+        id="view-fechas"
+        class="view">
+
+        <div class="container">
+
+            <h1 class="section-title">
+                Fechas importantes
+            </h1>
+
+            <p class="section-description">
+                Conoce algunos de los momentos más importantes
+                relacionados con la Independencia de México.
+            </p>
+
+
             <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-card">
-                        <h3>Inicio del Movimiento (1810 - 1811)</h3>
-                        <p><strong>16 de septiembre de 1810:</strong> Miguel Hidalgo da el Grito de Dolores e inicia el levantamiento armado.</p>
-                        <p><strong>28 de septiembre de 1810:</strong> Toma de la Alhóndiga de Granaditas en Guanajuato.</p>
-                        <p><strong>17 de enero de 1811:</strong> Los insurgentes sufren una gran derrota en la Batalla de Puente de Calderón.</p>
-                        <p><strong>Julio de 1811:</strong> Miguel Hidalgo, Ignacio Allende y Juan Aldama son fusilados por el ejército realista.</p>
+
+                <div class="tl-era">
+
+                    <h2>1810 — El inicio</h2>
+
+                    <p>
+                        El movimiento de Independencia comenzó
+                        en septiembre de 1810, marcando el inicio
+                        de una lucha que cambiaría la historia
+                        de México.
+                    </p>
+
+                </div>
+
+
+                <div class="tl-era">
+
+                    <h2>16 de septiembre</h2>
+
+                    <p>
+                        Esta fecha se conmemora como el inicio
+                        de la Independencia de México y es una
+                        de las celebraciones patrias más importantes.
+                    </p>
+
+                </div>
+
+
+                <div class="tl-era">
+
+                    <h2>1811 — Continuación de la lucha</h2>
+
+                    <p>
+                        Después de los primeros acontecimientos,
+                        otros líderes continuaron el movimiento
+                        independentista.
+                    </p>
+
+                </div>
+
+
+                <div class="tl-era">
+
+                    <h2>1821 — Consumación</h2>
+
+                    <p>
+                        En 1821 se consumó la Independencia
+                        de México después de años de conflicto
+                        y cambios políticos.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <footer>
+                Septiembre: Tradición y Patria 🇲🇽
+            </footer>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         VISTA PERSONAJES
+    ========================= -->
+
+    <section
+        id="view-personajes"
+        class="view">
+
+        <div class="container">
+
+            <h1 class="section-title">
+                Personajes
+            </h1>
+
+            <p class="section-description">
+                Algunas de las figuras relacionadas con
+                la Independencia de México.
+            </p>
+
+
+            <div class="heroes-layout">
+
+
+                <!-- SIDEBAR -->
+
+                <aside class="heroes-sidebar">
+
+                    <button onclick="selectHero('miguel')">
+                        Miguel Hidalgo
+                    </button>
+
+                    <button onclick="selectHero('morelos')">
+                        José María Morelos
+                    </button>
+
+                    <button onclick="selectHero('allende')">
+                        Ignacio Allende
+                    </button>
+
+                    <button onclick="selectHero('josefa')">
+                        Josefa Ortiz
+                    </button>
+
+                    <button onclick="selectHero('guerrero')">
+                        Vicente Guerrero
+                    </button>
+
+                </aside>
+
+
+                <!-- DETALLE -->
+
+                <article
+                    id="hero-detail"
+                    class="hero-detail">
+
+                    <h2>
+                        Miguel Hidalgo
+                    </h2>
+
+                    <p>
+                        Miguel Hidalgo y Costilla fue uno de
+                        los principales iniciadores del movimiento
+                        de Independencia de México.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         VISTA MITOS
+    ========================= -->
+
+    <section
+        id="view-mitos"
+        class="view">
+
+        <div class="container">
+
+            <h1 class="section-title">
+                Mitos y preguntas
+            </h1>
+
+            <p class="section-description">
+                Algunas preguntas frecuentes sobre la
+                Independencia de México.
+            </p>
+
+
+            <div class="accordion">
+
+
+                <div class="accordion-item">
+
+                    <button
+                        class="accordion-question"
+                        onclick="toggleAccordion(this)">
+                        ¿La Independencia comenzó el 16 de septiembre?
+                    </button>
+
+                    <div class="accordion-answer">
+                        La fecha se conmemora como el inicio
+                        del movimiento de Independencia.
                     </div>
+
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-card">
-                        <h3> Organización y expansión (1811 - 1815)</h3>
-                        <p><strong>1811:</strong>  José María Morelos y Pavón toma el mando del ejército en el sur del país.</p>
-                        <p><strong>1812:</strong> Morelos y sus tropas logran resistir el famoso Sitio de Cuautla durante 72 días.</p>
-                        <p><strong>Septiembre de 1813:</strong>  Morelos lee los Sentimientos de la Nación en el Congreso de Chilpancingo.</p>
-                        <p><strong>Octubre de 1814:</strong>  Se promulga la Constitución de Apatzingán, la primera del movimiento insurgente.</p>
-                        <p><strong>Diciembre de 1815:</strong>  Morelos es capturado y fusilado en San Cristóbal Ecatepec.</p>
+
+
+                <div class="accordion-item">
+
+                    <button
+                        class="accordion-question"
+                        onclick="toggleAccordion(this)">
+                        ¿Quién inició el movimiento?
+                    </button>
+
+                    <div class="accordion-answer">
+                        Miguel Hidalgo y Costilla es reconocido
+                        como uno de los principales iniciadores
+                        del movimiento.
                     </div>
+
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-card">
-                        <h3>Resistencia y guerra de guerrillas (1815 - 1820)</h3>
-                        <p><strong>1816:</strong>  Vicente Guerrero y Guadalupe Victoria mantienen viva la lucha mediante ataques rápidos en las montañas del sur y el este.</p>
-                        <p><strong>Abril de 1817:</strong>  El militar español Francisco Javier Mina llega a México para unirse a la causa insurgente.</p>
-                        <p><strong>Noviembre de 1817:</strong>  Mina es capturado y fusilado por las tropas del rey.</p>
+
+
+                <div class="accordion-item">
+
+                    <button
+                        class="accordion-question"
+                        onclick="toggleAccordion(this)">
+                        ¿Cuándo terminó la Independencia?
+                    </button>
+
+                    <div class="accordion-answer">
+                        La consumación de la Independencia ocurrió
+                        en 1821.
                     </div>
+
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-card">
-                        <h3>Consumación (1821)</h3>
-                        <p><strong>Febrero de 1821:</strong>  Agustín de Iturbide y Vicente Guerrero hacen las paces en el Abrazo de Acatempan.</p>
-                        <p><strong>24 de febrero de 1821:</strong>  Se firma el Plan de Iguala, que une a los dos ejércitos bajo las Tres Garantías (Religión, Independencia y Unión).</p>
-                        <p><strong>Agosto de 1821:</strong>  Se firman los Tratados de Córdoba, donde España reconoce formalmente la independencia.</p>
-                        <p><strong>27 de septiembre de 1821:</strong>  El Ejército Trigarante entra triunfante a la Ciudad de México, logrando la independencia total.</p>
+
+
+                <div class="accordion-item">
+
+                    <button
+                        class="accordion-question"
+                        onclick="toggleAccordion(this)">
+                        ¿Por qué septiembre es tan importante?
+                    </button>
+
+                    <div class="accordion-answer">
+                        Porque durante este mes se realizan
+                        importantes celebraciones relacionadas
+                        con la historia y la Independencia de México.
                     </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- PERSONAJES -->
-        <section id="personajes" style="margin-top: 80px;">
-            <h2 class="titulo-seccion">Héroes Ilustres</h2>
-            <div class="grid-personajes">
-                <div class="card">
-                    <h3>Miguel Hidalgo</h3>
-                    <p>El iniciador del movimiento insurgente y Padre de la Patria.</p>
                 </div>
-                <div class="card">
-                    <h3>Josefa Ortiz</h3>
-                    <p>Valiente mujer que alertó a los insurgentes sobre el peligro.</p>
-                </div>
-                <div class="card">
-                    <h3>José M. Morelos</h3>
-                    <p>Gran líder militar y autor de los Sentimientos de la Nación.</p>
-                </div>
-                <div class="card">
-                    <h3>Ignacio Allende</h3>
-                    <p>Militar de carrera y co conspirador clave en la primera etapa de la lucha junto a Hidalgo.</p>
-                </div>
-                <div class="card">
-                    <h3>Vicente Guerrero</h3>
-                    <p>Insurgente que mantuvo viva la resistencia en el sur y pactó el Abrazo de Acatempan para consumar la independencia.</p>
-                </div>
-                <div class="card">
-                    <h3>Agustín de Iturbide</h3>
-                    <p>Militar realista que después se unió a los insurgentes y firmó el Plan de Iguala para lograr la independencia definitiva. </p>
-                </div>
-                <div class="card">
-                    <h3>Leona Vicario</h3>
-                    <p>: Financista y informante clave de los insurgentes, considerada una de las primeras periodistas de México. </p>
-                </div>
-                <div class="card">
-                    <h3>Juan Aldama</h3>
-                    <p>Capitán militar que participó en las juntas secretas de Querétaro y acompañó a Hidalgo al inicio de la guerra. </p>
-                </div>
-                <div class="card">
-                    <h3>Guadalupe Victoria</h3>
-                    <p>Su verdadero nombre era Miguel Fernández Félix; peleó en el sur y años más tarde se convirtió en el primer presidente de México. </p>
-                </div>
-            </div>
-        </section>
 
-        <!-- MITOS -->
-        <section id="mitos" style="margin-top: 80px;">
-            <h2 class="titulo-seccion">Mitos y Verdades</h2>
-            <p style="text-align: center; margin-bottom: 20px;">Haz clic para descubrir la verdad:</p>
-            
-            <div class="mito-box" onclick="toggleMito(this)">
-                <strong>El Grito ocurrió a las 11 de la noche?</strong>
-                <div class="respuesta">
-                    En realidad ocurrió en la madrugada del 16 de septiembre. Porfirio Díaz cambió la celebración a la noche del 15 para festejar también su cumpleaños.
-                </div>
             </div>
 
-            <div class="mito-box" onclick="toggleMito(this)">
-                <strong>Existió realmente "El Pípila"?</strong>
-                <div class="respuesta">
-                    Históricamente se duda de su existencia individual; representa el valor colectivo de los mineros que ayudaron en la toma de la Alhóndiga.
-                </div>
-            </div>
 
-             <div class="mito-box" onclick="toggleMito(this)">
-                <strong>El repique de la campana por Hidalgo</strong>
-                <div class="respuesta">
-                    Quien realmente tocó la campana fue José Galván, el campanero oficial de la parroquia. Mientras él llamaba al pueblo, Hidalgo daba los discursos y organizaba a la gente en el atrio.
-                </div>
-            </div>
+            <footer>
+                🇲🇽 Viva México 🇲🇽
+            </footer>
 
-             <div class="mito-box" onclick="toggleMito(this)">
-                <strong>Retratos reales de los héroes</strong>
-                <div class="respuesta">
-                    No existen pinturas hechas en vida de ellos. El retrato famoso de Hidalgo se pintó muchos años después de su muerte, usando como modelo a un sacerdote belga. El retrato de "La Corregidora" también fue una recreación artística posterior.
-                </div>
-            </div>
+        </div>
 
-             <div class="mito-box" onclick="toggleMito(this)">
-                <strong> La fecha exacta del festejo</strong>
-                <div class="respuesta">
-                    El levantamiento real ocurrió en la madrugada del 16 de septiembre. Existe el mito urbano de que el presidente Porfirio Díaz cambió la celebración a la noche del 15 para hacerla coincidir con el día de su propio cumpleaños, aunque los festejos nocturnos ya se hacían desde antes.
-                </div>
-            </div>
-        </section>
+    </section>
 
-    </div>
 
-    <button id="btnArriba" onclick="subir()">↑</button>
 
-    <footer>
-        <p>¡Viva México! - Barrón Pando Kevin Zaid &copy; 5to J</p>
-    </footer>
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
 
     <script>
-        // Animación al bajar el scroll
-        window.addEventListener('scroll', () => {
-            const items = document.querySelectorAll('.timeline-item');
-            items.forEach(item => {
-                const rect = item.getBoundingClientRect();
-                if(rect.top < window.innerHeight * 0.85) {
-                    item.classList.add('activo');
-                }
-            });
 
-            // Botón subir
-            const btn = document.getElementById('btnArriba');
-            window.scrollY > 400 ? btn.style.display = "block" : btn.style.display = "none";
-        });
+        /* =========================
+           CAMBIAR DE VISTA
+        ========================= */
 
-        // Interactividad Mitos
-        function toggleMito(el) {
-            const res = el.querySelector('.respuesta');
-            res.style.display = (res.style.display === "block") ? "none" : "block";
-            el.style.borderColor = (res.style.display === "block") ? "var(--rojo)" : "var(--verde)";
+        function showView(name) {
+
+            // Ocultar todas las vistas
+            document
+                .querySelectorAll('.view')
+                .forEach(view => {
+                    view.classList.remove('active');
+                });
+
+
+            // Buscar la vista seleccionada
+            const selectedView =
+                document.getElementById('view-' + name);
+
+
+            // Mostrarla
+            if (selectedView) {
+                selectedView.classList.add('active');
+
+                // Reiniciar el scroll INTERNO
+                selectedView.scrollTop = 0;
+            }
+
+
+            // Cambiar botón activo
+            document
+                .querySelectorAll('.nav-links button')
+                .forEach(button => {
+
+                    button.classList.toggle(
+                        'active',
+                        button.dataset.view === name
+                    );
+
+                });
+
         }
 
-        function subir() { window.scrollTo({top: 0, behavior: 'smooth'}); }
+
+
+        /* =========================
+           PERSONAJES
+        ========================= */
+
+        function selectHero(hero) {
+
+            const detail =
+                document.getElementById('hero-detail');
+
+
+            const heroes = {
+
+                miguel: {
+                    title: 'Miguel Hidalgo',
+                    text: 'Miguel Hidalgo y Costilla fue uno de los principales iniciadores del movimiento de Independencia de México.'
+                },
+
+                morelos: {
+                    title: 'José María Morelos',
+                    text: 'José María Morelos fue uno de los principales líderes insurgentes durante la lucha por la Independencia.'
+                },
+
+                allende: {
+                    title: 'Ignacio Allende',
+                    text: 'Ignacio Allende participó en la conspiración y posteriormente en el movimiento de Independencia.'
+                },
+
+                josefa: {
+                    title: 'Josefa Ortiz',
+                    text: 'Josefa Ortiz de Domínguez participó en la conspiración de Querétaro y ayudó a advertir sobre el descubrimiento de la conspiración.'
+                },
+
+                guerrero: {
+                    title: 'Vicente Guerrero',
+                    text: 'Vicente Guerrero fue uno de los líderes insurgentes que continuaron la lucha hasta la consumación de la Independencia.'
+                }
+
+            };
+
+
+            if (!heroes[hero]) {
+                return;
+            }
+
+
+            detail.innerHTML = `
+                <h2>${heroes[hero].title}</h2>
+
+                <p>
+                    ${heroes[hero].text}
+                </p>
+            `;
+
+        }
+
+
+
+        /* =========================
+           ACORDEÓN
+        ========================= */
+
+        function toggleAccordion(button) {
+
+            const item =
+                button.parentElement;
+
+
+            item.classList.toggle('open');
+
+        }
+
+
+
+        /* =========================
+           INICIO
+        ========================= */
+
+        showView('inicio');
+
     </script>
+
 </body>
 </html>
