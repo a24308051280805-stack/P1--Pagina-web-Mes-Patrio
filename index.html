@@ -1,904 +1,2422 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Septiembre: Tradición y Patria</title>
-
-    <style>
-        /* =========================
-           RESET
-        ========================= */
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #080b12;
-            color: white;
-        }
-
-
-        /* =========================
-           NAVBAR
-        ========================= */
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 58px;
-            z-index: 1000;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 0 25px;
-
-            background: rgba(8, 11, 18, 0.95);
-            border-bottom: 1px solid rgba(255,255,255,.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .logo {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 8px;
-        }
-
-        .nav-links button {
-            border: none;
-            background: transparent;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: .2s;
-        }
-
-        .nav-links button:hover,
-        .nav-links button.active {
-            background: rgba(255,255,255,.12);
-        }
-
-
-        /* =========================
-           SISTEMA SPA
-        ========================= */
-
-        .view {
-            display: none;
-
-            position: fixed;
-
-            top: 58px;
-            left: 0;
-
-            width: 100%;
-            height: calc(100vh - 58px);
-
-            overflow-y: auto;
-            overflow-x: hidden;
-
-            animation: viewIn .3s ease;
-        }
-
-        .view.active {
-            display: block;
-        }
-
-        @keyframes viewIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-
-        /* =========================
-           INICIO
-        ========================= */
-
-        #view-inicio {
-            display: none;
-
-            align-items: center;
-            justify-content: center;
-
-            text-align: center;
-
-            height: calc(100vh - 58px);
-
-            overflow: hidden;
-
-            background:
-                radial-gradient(
-                    circle at center,
-                    rgba(120, 0, 0, .35),
-                    transparent 45%
-                ),
-                linear-gradient(
-                    135deg,
-                    #07130c,
-                    #111,
-                    #300707
-                );
-        }
-
-        #view-inicio.active {
-            display: flex;
-        }
-
-        .hero {
-            width: min(900px, 90%);
-        }
-
-        .hero h1 {
-            font-size: clamp(40px, 7vw, 80px);
-            margin-bottom: 20px;
-        }
+<title>Septiembre: Tradición y Patria</title>
 
-        .hero p {
-            font-size: 18px;
-            opacity: .8;
-            margin-bottom: 30px;
-        }
-
-        .hero-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
+<style>
 
-        .hero-buttons button {
-            border: none;
-            padding: 13px 22px;
-            border-radius: 10px;
-            cursor: pointer;
+/* =========================================================
+   VARIABLES
+========================================================= */
 
-            background: white;
-            color: #111;
+:root {
+    --verde: #006847;
+    --verde-2: #008f5a;
+    --verde-3: #00b878;
 
-            font-weight: bold;
+    --rojo: #ce1126;
+    --rojo-2: #e52b3d;
 
-            transition: transform .2s;
-        }
+    --blanco: #ffffff;
+    --dorado: #f2c94c;
 
-        .hero-buttons button:hover {
-            transform: translateY(-3px);
-        }
+    --fondo: #06100b;
+    --fondo-2: #0b1711;
 
+    --texto: #ffffff;
+    --texto-suave: rgba(255,255,255,.76);
 
-        /* =========================
-           CONTENIDO GENERAL
-        ========================= */
+    --nav-height: 64px;
+}
 
-        .container {
-            width: min(1200px, 92%);
-            margin: auto;
-            padding: 50px 0;
-        }
 
-        .section-title {
-            font-size: 42px;
-            margin-bottom: 15px;
-        }
+/* =========================================================
+   RESET
+========================================================= */
 
-        .section-description {
-            opacity: .7;
-            margin-bottom: 40px;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
 
-        /* =========================
-           TIMELINE
-        ========================= */
+body {
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
-        .timeline {
-            position: relative;
-            max-width: 900px;
-            margin: auto;
-        }
+    color: var(--texto);
 
-        .tl-era {
-            margin-bottom: 45px;
-            padding: 25px;
+    background:
+        linear-gradient(
+            135deg,
+            #04150d,
+            #07100c,
+            #26060b
+        );
+}
 
-            border-radius: 15px;
 
-            background: rgba(255,255,255,.05);
-            border: 1px solid rgba(255,255,255,.08);
-        }
+/* =========================================================
+   SCROLLBAR
+========================================================= */
 
-        .tl-era h2 {
-            margin-bottom: 10px;
-        }
+::-webkit-scrollbar {
+    width: 9px;
+}
 
-        .tl-era p {
-            line-height: 1.7;
-            opacity: .8;
-        }
+::-webkit-scrollbar-track {
+    background: #07110c;
+}
 
+::-webkit-scrollbar-thumb {
+    background:
+        linear-gradient(
+            var(--verde),
+            var(--rojo)
+        );
 
-        /* =========================
-           PERSONAJES
-        ========================= */
+    border-radius: 20px;
+}
 
-        .heroes-layout {
-            display: grid;
-            grid-template-columns: 280px 1fr;
 
-            height: calc(100vh - 158px);
+/* =========================================================
+   NAVBAR
+========================================================= */
 
-            gap: 20px;
+nav {
+    position: fixed;
 
-            min-height: 0;
-        }
+    top: 0;
+    left: 0;
 
-        .heroes-sidebar {
-            overflow-y: auto;
+    width: 100%;
+    height: var(--nav-height);
 
-            background: rgba(255,255,255,.05);
-            border-radius: 15px;
-            padding: 15px;
-        }
+    z-index: 1000;
 
-        .heroes-sidebar button {
-            width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-            border: none;
-            background: transparent;
-            color: white;
+    padding: 0 28px;
 
-            padding: 13px;
-            margin-bottom: 8px;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,104,71,.97),
+            rgba(5,16,11,.97) 50%,
+            rgba(206,17,38,.97)
+        );
 
-            text-align: left;
+    border-bottom:
+        2px solid var(--dorado);
 
-            border-radius: 8px;
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.45);
 
-            cursor: pointer;
-        }
+    backdrop-filter: blur(15px);
+}
 
-        .heroes-sidebar button:hover {
-            background: rgba(255,255,255,.1);
-        }
 
-        .hero-detail {
-            overflow-y: auto;
+/* Logo */
 
-            background: rgba(255,255,255,.05);
+.logo {
+    display: flex;
+    align-items: center;
 
-            border-radius: 15px;
+    gap: 10px;
 
-            padding: 30px;
-        }
+    font-size: 19px;
+    font-weight: 800;
 
-        .hero-detail h2 {
-            font-size: 35px;
-            margin-bottom: 15px;
-        }
+    letter-spacing: .5px;
 
-        .hero-detail p {
-            line-height: 1.8;
-            opacity: .8;
-        }
+    white-space: nowrap;
+}
 
+.logo-icon {
+    font-size: 25px;
+}
 
-        /* =========================
-           MITOS
-        ========================= */
 
-        .accordion {
-            max-width: 900px;
-            margin: auto;
-        }
+/* Navegación */
 
-        .accordion-item {
-            margin-bottom: 12px;
+.nav-links {
+    display: flex;
 
-            background: rgba(255,255,255,.05);
+    gap: 7px;
 
-            border-radius: 12px;
+    flex-wrap: wrap;
+}
 
-            overflow: hidden;
-        }
+.nav-links button {
+    border: 1px solid transparent;
 
-        .accordion-question {
-            width: 100%;
+    background:
+        rgba(255,255,255,.08);
 
-            border: none;
+    color: white;
 
-            background: transparent;
-            color: white;
+    padding: 9px 13px;
 
-            padding: 20px;
+    border-radius: 9px;
 
-            text-align: left;
+    cursor: pointer;
 
-            font-size: 17px;
-            font-weight: bold;
+    font-weight: 600;
 
-            cursor: pointer;
-        }
+    transition:
+        .25s ease;
+}
 
-        .accordion-answer {
-            display: none;
+.nav-links button:hover {
+    background:
+        rgba(255,255,255,.2);
 
-            padding: 0 20px 20px;
+    transform:
+        translateY(-2px);
+}
 
-            line-height: 1.7;
+.nav-links button.active {
+    background: white;
 
-            opacity: .75;
-        }
+    color: var(--verde);
 
-        .accordion-item.open .accordion-answer {
-            display: block;
-        }
+    border-color:
+        var(--dorado);
 
+    box-shadow:
+        0 0 18px rgba(255,255,255,.25);
+}
 
-        /* =========================
-           FOOTER
-        ========================= */
 
-        footer {
-            margin-top: 60px;
+/* =========================================================
+   SISTEMA SPA
+========================================================= */
 
-            padding: 30px;
+.view {
+    display: none;
 
-            text-align: center;
+    position: fixed;
 
-            opacity: .6;
+    top: var(--nav-height);
+    left: 0;
 
-            border-top: 1px solid rgba(255,255,255,.08);
-        }
+    width: 100%;
 
+    height:
+        calc(100vh - var(--nav-height));
 
-        /* =========================
-           RESPONSIVE
-        ========================= */
+    overflow-y: auto;
+    overflow-x: hidden;
 
-        @media (max-width: 700px) {
+    animation:
+        viewIn .35s ease both;
+}
 
-            nav {
-                padding: 0 12px;
-            }
+.view.active {
+    display: block;
+}
 
-            .logo {
-                font-size: 14px;
-            }
+@keyframes viewIn {
 
-            .nav-links {
-                gap: 2px;
-            }
+    from {
+        opacity: 0;
+        transform:
+            translateY(15px);
+    }
 
-            .nav-links button {
-                padding: 8px;
-                font-size: 12px;
-            }
+    to {
+        opacity: 1;
+        transform:
+            translateY(0);
+    }
 
-            .heroes-layout {
-                grid-template-columns: 1fr;
-                height: auto;
-            }
+}
 
-            .heroes-sidebar {
-                max-height: 180px;
-            }
 
-            .hero-detail {
-                min-height: 400px;
-            }
-        }
-    </style>
+/* =========================================================
+   INICIO
+========================================================= */
+
+#view-inicio {
+    display: none;
+
+    position: fixed;
+
+    top: var(--nav-height);
+    left: 0;
+
+    width: 100%;
+    height:
+        calc(100vh - var(--nav-height));
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background-image:
+
+        linear-gradient(
+            rgba(0,0,0,.28),
+            rgba(0,0,0,.58)
+        ),
+
+        url("mexico2.png");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+}
+
+#view-inicio.active {
+    display: flex;
+}
+
+
+/* Capas de color */
+
+#view-inicio::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,104,71,.35),
+            transparent 40%,
+            rgba(206,17,38,.35)
+        );
+
+    pointer-events: none;
+}
+
+
+/* Efecto inferior */
+
+#view-inicio::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 35%;
+
+    background:
+        linear-gradient(
+            transparent,
+            rgba(0,0,0,.65)
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    position: relative;
+
+    z-index: 3;
+
+    width:
+        min(1000px, 90%);
+
+    padding:
+        clamp(30px, 5vw, 65px);
+
+    text-align: center;
+
+    border-radius: 28px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,104,71,.76),
+            rgba(0,0,0,.48),
+            rgba(206,17,38,.76)
+        );
+
+    border:
+        2px solid
+        rgba(255,255,255,.35);
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.65),
+        0 0 50px rgba(0,104,71,.18);
+
+    backdrop-filter:
+        blur(7px);
+}
+
+.hero h1 {
+    font-size:
+        clamp(42px, 7vw, 85px);
+
+    line-height: 1.02;
+
+    margin-bottom: 25px;
+
+    text-shadow:
+        0 5px 25px rgba(0,0,0,.8);
+}
+
+.hero h1 span {
+    background:
+        linear-gradient(
+            90deg,
+            #4cffb0,
+            white,
+            #ff6574
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
+}
+
+.hero p {
+    max-width: 760px;
+
+    margin:
+        0 auto 30px;
+
+    font-size:
+        clamp(16px, 2vw, 20px);
+
+    line-height: 1.7;
+
+    color:
+        rgba(255,255,255,.92);
+}
+
+
+/* Botones */
+
+.hero-buttons {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    flex-wrap: wrap;
+}
+
+.hero-buttons button {
+    border: 2px solid white;
+
+    color: white;
+
+    padding: 14px 24px;
+
+    border-radius: 11px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--verde),
+            var(--verde-2)
+        );
+
+    transition:
+        .25s ease;
+}
+
+.hero-buttons button:nth-child(2) {
+    background:
+        linear-gradient(
+            135deg,
+            var(--rojo),
+            var(--rojo-2)
+        );
+}
+
+.hero-buttons button:hover {
+    transform:
+        translateY(-4px)
+        scale(1.03);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.45);
+}
+
+
+/* =========================================================
+   CONTENEDOR
+========================================================= */
+
+.container {
+    width:
+        min(1250px, 92%);
+
+    margin: auto;
+
+    padding:
+        55px 0 80px;
+}
+
+.section-title {
+    font-size:
+        clamp(35px, 5vw, 55px);
+
+    margin-bottom: 13px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #00c878,
+            white 48%,
+            #ff4055
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
+}
+
+.section-description {
+    max-width: 850px;
+
+    color:
+        var(--texto-suave);
+
+    line-height: 1.7;
+
+    margin-bottom: 40px;
+}
+
+
+/* =========================================================
+   BANNER TRICOLOR
+========================================================= */
+
+.tricolor {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    height: 8px;
+
+    margin:
+        20px 0 40px;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.tricolor div:nth-child(1) {
+    background: var(--verde);
+}
+
+.tricolor div:nth-child(2) {
+    background: white;
+}
+
+.tricolor div:nth-child(3) {
+    background: var(--rojo);
+}
+
+
+/* =========================================================
+   TARJETAS
+========================================================= */
+
+.cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 45px;
+}
+
+.card {
+    padding: 27px;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,104,71,.2),
+            rgba(255,255,255,.045),
+            rgba(206,17,38,.2)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.25);
+
+    transition:
+        .25s ease;
+}
+
+.card:hover {
+    transform:
+        translateY(-7px);
+
+    border-color:
+        rgba(255,255,255,.3);
+
+    box-shadow:
+        0 18px 45px rgba(0,0,0,.4);
+}
+
+.card-icon {
+    font-size: 35px;
+
+    margin-bottom: 15px;
+}
+
+.card h3 {
+    font-size: 22px;
+
+    margin-bottom: 12px;
+
+    color:
+        var(--dorado);
+}
+
+.card p {
+    color:
+        var(--texto-suave);
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   HISTORIA
+========================================================= */
+
+.history-box {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 25px;
+
+    margin-bottom: 45px;
+}
+
+.history-content,
+.history-highlight {
+    padding: 30px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,.045);
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+}
+
+.history-content h2,
+.history-highlight h2 {
+    margin-bottom: 18px;
+
+    color:
+        var(--dorado);
+}
+
+.history-content p,
+.history-highlight p {
+    line-height: 1.85;
+
+    color:
+        var(--texto-suave);
+
+    margin-bottom: 15px;
+}
+
+
+/* =========================================================
+   TIMELINE
+========================================================= */
+
+.timeline {
+    position: relative;
+
+    max-width: 1000px;
+
+    margin:
+        0 auto;
+}
+
+.timeline::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    left: 24px;
+
+    width: 4px;
+
+    background:
+        linear-gradient(
+            var(--verde),
+            white,
+            var(--rojo)
+        );
+
+    border-radius: 10px;
+}
+
+.tl-era {
+    position: relative;
+
+    margin-bottom: 28px;
+
+    margin-left: 60px;
+
+    padding: 27px;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,104,71,.2),
+            rgba(255,255,255,.045),
+            rgba(206,17,38,.2)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,.25);
+}
+
+.tl-era::before {
+    content: "";
+
+    position: absolute;
+
+    left: -48px;
+
+    top: 28px;
+
+    width: 20px;
+    height: 20px;
+
+    border-radius: 50%;
+
+    background:
+        var(--dorado);
+
+    border:
+        4px solid
+        var(--fondo);
+
+    box-shadow:
+        0 0 15px
+        rgba(242,201,76,.55);
+}
+
+.tl-era h2 {
+    color:
+        var(--dorado);
+
+    margin-bottom: 12px;
+}
+
+.tl-era .date {
+    display: inline-block;
+
+    margin-bottom: 12px;
+
+    padding:
+        5px 10px;
+
+    border-radius: 20px;
+
+    background:
+        var(--verde);
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+.tl-era p {
+    color:
+        var(--texto-suave);
+
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   PERSONAJES
+========================================================= */
+
+.heroes-layout {
+    display: grid;
+
+    grid-template-columns:
+        290px 1fr;
+
+    gap: 22px;
+
+    height:
+        calc(100vh - 245px);
+
+    min-height: 500px;
+}
+
+.heroes-sidebar {
+    overflow-y: auto;
+
+    padding: 15px;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0,104,71,.25),
+            rgba(255,255,255,.04),
+            rgba(206,17,38,.2)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+}
+
+.heroes-sidebar h3 {
+    padding:
+        12px 10px 18px;
+
+    color:
+        var(--dorado);
+}
+
+.hero-button {
+    width: 100%;
+
+    padding: 15px;
+
+    margin-bottom: 8px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,.06);
+
+    color: white;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        .2s ease;
+}
+
+.hero-button:hover {
+    background:
+        var(--verde);
+
+    transform:
+        translateX(5px);
+}
+
+.hero-button.active {
+    background:
+        linear-gradient(
+            90deg,
+            var(--verde),
+            var(--verde-2)
+        );
+}
+
+.hero-detail {
+    overflow-y: auto;
+
+    padding: 35px;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,104,71,.18),
+            rgba(255,255,255,.045),
+            rgba(206,17,38,.18)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+}
+
+.hero-detail .big-icon {
+    font-size: 65px;
+
+    margin-bottom: 15px;
+}
+
+.hero-detail h2 {
+    font-size: 38px;
+
+    color:
+        var(--dorado);
+
+    margin-bottom: 18px;
+}
+
+.hero-detail h3 {
+    color:
+        #5cffb2;
+
+    margin:
+        25px 0 10px;
+}
+
+.hero-detail p {
+    color:
+        var(--texto-suave);
+
+    line-height: 1.85;
+
+    margin-bottom: 15px;
+}
+
+
+/* =========================================================
+   MITOS
+========================================================= */
+
+.accordion {
+    max-width: 950px;
+
+    margin: auto;
+}
+
+.accordion-item {
+    margin-bottom: 13px;
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,104,71,.18),
+            rgba(255,255,255,.04),
+            rgba(206,17,38,.18)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+}
+
+.accordion-question {
+    width: 100%;
+
+    padding: 21px;
+
+    border: none;
+
+    background: transparent;
+
+    color: white;
+
+    text-align: left;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.accordion-question:hover {
+    background:
+        rgba(0,104,71,.25);
+}
+
+.accordion-answer {
+    display: none;
+
+    padding:
+        0 21px 22px;
+
+    color:
+        var(--texto-suave);
+
+    line-height: 1.75;
+}
+
+.accordion-item.open
+.accordion-answer {
+    display: block;
+}
+
+
+/* =========================================================
+   TRADICIONES
+========================================================= */
+
+.traditions {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 20px;
+}
+
+.tradition {
+    padding: 27px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(255,255,255,.045);
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+}
+
+.tradition h3 {
+    color:
+        var(--dorado);
+
+    margin-bottom: 10px;
+}
+
+.tradition p {
+    color:
+        var(--texto-suave);
+
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   DATOS
+========================================================= */
+
+.facts {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+}
+
+.fact {
+    text-align: center;
+
+    padding: 28px 18px;
+
+    border-radius: 17px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0,104,71,.25),
+            rgba(206,17,38,.18)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+}
+
+.fact strong {
+    display: block;
+
+    font-size: 35px;
+
+    color:
+        var(--dorado);
+
+    margin-bottom: 8px;
+}
+
+.fact span {
+    color:
+        var(--texto-suave);
+}
+
+
+/* =========================================================
+   SIMBOLOS PATRIOS
+========================================================= */
+
+.symbols {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.symbol {
+    padding: 28px;
+
+    border-radius: 18px;
+
+    text-align: center;
+
+    background:
+        rgba(255,255,255,.045);
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+}
+
+.symbol-icon {
+    font-size: 50px;
+
+    margin-bottom: 15px;
+}
+
+.symbol h3 {
+    color:
+        var(--dorado);
+
+    margin-bottom: 12px;
+}
+
+.symbol p {
+    color:
+        var(--texto-suave);
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    margin-top: 65px;
+
+    padding:
+        30px 10px;
+
+    text-align: center;
+
+    border-top:
+        2px solid
+        rgba(206,17,38,.45);
+
+    color:
+        rgba(255,255,255,.6);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    nav {
+        padding:
+            0 12px;
+    }
+
+    .logo {
+        font-size: 14px;
+    }
+
+    .nav-links button {
+        padding:
+            7px 8px;
+
+        font-size: 11px;
+    }
+
+    .cards,
+    .symbols {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .facts {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .history-box {
+        grid-template-columns:
+            1fr;
+    }
+
+    .heroes-layout {
+        grid-template-columns:
+            1fr;
+
+        height: auto;
+    }
+
+    .heroes-sidebar {
+        max-height: 210px;
+    }
+
+    .hero-detail {
+        min-height: 500px;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .cards,
+    .symbols,
+    .traditions,
+    .facts {
+        grid-template-columns:
+            1fr;
+    }
+
+    .container {
+        width: 90%;
+
+        padding-top: 35px;
+    }
+
+    .timeline::before {
+        left: 12px;
+    }
+
+    .tl-era {
+        margin-left: 38px;
+    }
+
+    .tl-era::before {
+        left: -35px;
+    }
+
+    .hero {
+        padding: 28px 20px;
+    }
+
+}
+
+</style>
 </head>
 
 
 <body>
 
 
-    <!-- =========================
-         NAVBAR
-    ========================= -->
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
-    <nav>
+<nav>
 
-        <div class="logo">
-            🇲🇽 Septiembre
-        </div>
+    <div class="logo">
+        <span class="logo-icon">🇲🇽</span>
+        Septiembre: Tradición y Patria
+    </div>
 
-        <div class="nav-links">
+    <div class="nav-links">
 
-            <button
-                data-view="inicio"
-                class="active"
-                onclick="showView('inicio')">
-                Inicio
+        <button
+            data-view="inicio"
+            class="active"
+            onclick="showView('inicio')">
+            🏠 Inicio
+        </button>
+
+        <button
+            data-view="historia"
+            onclick="showView('historia')">
+            📖 Historia
+        </button>
+
+        <button
+            data-view="fechas"
+            onclick="showView('fechas')">
+            📅 Fechas
+        </button>
+
+        <button
+            data-view="personajes"
+            onclick="showView('personajes')">
+            👤 Personajes
+        </button>
+
+        <button
+            data-view="tradiciones"
+            onclick="showView('tradiciones')">
+            🎉 Tradiciones
+        </button>
+
+        <button
+            data-view="mitos"
+            onclick="showView('mitos')">
+            ❓ Mitos
+        </button>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     INICIO
+===================================================== -->
+
+<section
+    id="view-inicio"
+    class="view active">
+
+    <div class="hero">
+
+        <h1>
+            <span>Septiembre:</span><br>
+            Tradición y Patria 🇲🇽
+        </h1>
+
+        <p>
+            México celebra durante septiembre una parte
+            fundamental de su historia. Conoce el origen
+            de la Independencia, sus protagonistas,
+            acontecimientos, tradiciones y símbolos
+            que forman parte de la identidad mexicana.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button onclick="showView('historia')">
+                📖 Conocer la historia
             </button>
 
-            <button
-                data-view="fechas"
-                onclick="showView('fechas')">
-                Fechas
-            </button>
-
-            <button
-                data-view="personajes"
-                onclick="showView('personajes')">
-                Personajes
-            </button>
-
-            <button
-                data-view="mitos"
-                onclick="showView('mitos')">
-                Mitos
+            <button onclick="showView('personajes')">
+                👤 Ver personajes
             </button>
 
         </div>
 
-    </nav>
+    </div>
+
+</section>
 
 
 
-    <!-- =========================
-         VISTA INICIO
-    ========================= -->
+<!-- =====================================================
+     HISTORIA
+===================================================== -->
 
-    <section
-        id="view-inicio"
-        class="view active">
+<section
+    id="view-historia"
+    class="view">
 
-        <div class="hero">
+    <div class="container">
 
-            <h1>
-                Septiembre:<br>
-                Tradición y Patria 🇲🇽
-            </h1>
+        <h1 class="section-title">
+            La Independencia de México
+        </h1>
 
-            <p>
-                Conoce la historia, las fechas,
-                los personajes y las tradiciones
-                de la Independencia de México.
-            </p>
+        <p class="section-description">
+            La Independencia fue un proceso histórico
+            que transformó profundamente la vida política
+            y social de la Nueva España y terminó dando
+            origen a México como nación independiente.
+        </p>
 
-            <div class="hero-buttons">
-
-                <button
-                    onclick="showView('fechas')">
-                    📅 Ver fechas
-                </button>
-
-                <button
-                    onclick="showView('personajes')">
-                    👤 Conocer personajes
-                </button>
-
-            </div>
-
+        <div class="tricolor">
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
 
-    </section>
 
+        <div class="history-box">
 
+            <div class="history-content">
 
-    <!-- =========================
-         VISTA FECHAS
-    ========================= -->
-
-    <section
-        id="view-fechas"
-        class="view">
-
-        <div class="container">
-
-            <h1 class="section-title">
-                Fechas importantes
-            </h1>
-
-            <p class="section-description">
-                Conoce algunos de los momentos más importantes
-                relacionados con la Independencia de México.
-            </p>
-
-
-            <div class="timeline">
-
-                <div class="tl-era">
-
-                    <h2>1810 — El inicio</h2>
-
-                    <p>
-                        El movimiento de Independencia comenzó
-                        en septiembre de 1810, marcando el inicio
-                        de una lucha que cambiaría la historia
-                        de México.
-                    </p>
-
-                </div>
-
-
-                <div class="tl-era">
-
-                    <h2>16 de septiembre</h2>
-
-                    <p>
-                        Esta fecha se conmemora como el inicio
-                        de la Independencia de México y es una
-                        de las celebraciones patrias más importantes.
-                    </p>
-
-                </div>
-
-
-                <div class="tl-era">
-
-                    <h2>1811 — Continuación de la lucha</h2>
-
-                    <p>
-                        Después de los primeros acontecimientos,
-                        otros líderes continuaron el movimiento
-                        independentista.
-                    </p>
-
-                </div>
-
-
-                <div class="tl-era">
-
-                    <h2>1821 — Consumación</h2>
-
-                    <p>
-                        En 1821 se consumó la Independencia
-                        de México después de años de conflicto
-                        y cambios políticos.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <footer>
-                Septiembre: Tradición y Patria 🇲🇽
-            </footer>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =========================
-         VISTA PERSONAJES
-    ========================= -->
-
-    <section
-        id="view-personajes"
-        class="view">
-
-        <div class="container">
-
-            <h1 class="section-title">
-                Personajes
-            </h1>
-
-            <p class="section-description">
-                Algunas de las figuras relacionadas con
-                la Independencia de México.
-            </p>
-
-
-            <div class="heroes-layout">
-
-
-                <!-- SIDEBAR -->
-
-                <aside class="heroes-sidebar">
-
-                    <button onclick="selectHero('miguel')">
-                        Miguel Hidalgo
-                    </button>
-
-                    <button onclick="selectHero('morelos')">
-                        José María Morelos
-                    </button>
-
-                    <button onclick="selectHero('allende')">
-                        Ignacio Allende
-                    </button>
-
-                    <button onclick="selectHero('josefa')">
-                        Josefa Ortiz
-                    </button>
-
-                    <button onclick="selectHero('guerrero')">
-                        Vicente Guerrero
-                    </button>
-
-                </aside>
-
-
-                <!-- DETALLE -->
-
-                <article
-                    id="hero-detail"
-                    class="hero-detail">
-
-                    <h2>
-                        Miguel Hidalgo
-                    </h2>
-
-                    <p>
-                        Miguel Hidalgo y Costilla fue uno de
-                        los principales iniciadores del movimiento
-                        de Independencia de México.
-                    </p>
-
-                </article>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =========================
-         VISTA MITOS
-    ========================= -->
-
-    <section
-        id="view-mitos"
-        class="view">
-
-        <div class="container">
-
-            <h1 class="section-title">
-                Mitos y preguntas
-            </h1>
-
-            <p class="section-description">
-                Algunas preguntas frecuentes sobre la
-                Independencia de México.
-            </p>
-
-
-            <div class="accordion">
-
-
-                <div class="accordion-item">
-
-                    <button
-                        class="accordion-question"
-                        onclick="toggleAccordion(this)">
-                        ¿La Independencia comenzó el 16 de septiembre?
-                    </button>
-
-                    <div class="accordion-answer">
-                        La fecha se conmemora como el inicio
-                        del movimiento de Independencia.
-                    </div>
-
-                </div>
-
-
-                <div class="accordion-item">
-
-                    <button
-                        class="accordion-question"
-                        onclick="toggleAccordion(this)">
-                        ¿Quién inició el movimiento?
-                    </button>
-
-                    <div class="accordion-answer">
-                        Miguel Hidalgo y Costilla es reconocido
-                        como uno de los principales iniciadores
-                        del movimiento.
-                    </div>
-
-                </div>
-
-
-                <div class="accordion-item">
-
-                    <button
-                        class="accordion-question"
-                        onclick="toggleAccordion(this)">
-                        ¿Cuándo terminó la Independencia?
-                    </button>
-
-                    <div class="accordion-answer">
-                        La consumación de la Independencia ocurrió
-                        en 1821.
-                    </div>
-
-                </div>
-
-
-                <div class="accordion-item">
-
-                    <button
-                        class="accordion-question"
-                        onclick="toggleAccordion(this)">
-                        ¿Por qué septiembre es tan importante?
-                    </button>
-
-                    <div class="accordion-answer">
-                        Porque durante este mes se realizan
-                        importantes celebraciones relacionadas
-                        con la historia y la Independencia de México.
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <footer>
-                🇲🇽 Viva México 🇲🇽
-            </footer>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =========================
-         JAVASCRIPT
-    ========================= -->
-
-    <script>
-
-        /* =========================
-           CAMBIAR DE VISTA
-        ========================= */
-
-        function showView(name) {
-
-            // Ocultar todas las vistas
-            document
-                .querySelectorAll('.view')
-                .forEach(view => {
-                    view.classList.remove('active');
-                });
-
-
-            // Buscar la vista seleccionada
-            const selectedView =
-                document.getElementById('view-' + name);
-
-
-            // Mostrarla
-            if (selectedView) {
-                selectedView.classList.add('active');
-
-                // Reiniciar el scroll INTERNO
-                selectedView.scrollTop = 0;
-            }
-
-
-            // Cambiar botón activo
-            document
-                .querySelectorAll('.nav-links button')
-                .forEach(button => {
-
-                    button.classList.toggle(
-                        'active',
-                        button.dataset.view === name
-                    );
-
-                });
-
-        }
-
-
-
-        /* =========================
-           PERSONAJES
-        ========================= */
-
-        function selectHero(hero) {
-
-            const detail =
-                document.getElementById('hero-detail');
-
-
-            const heroes = {
-
-                miguel: {
-                    title: 'Miguel Hidalgo',
-                    text: 'Miguel Hidalgo y Costilla fue uno de los principales iniciadores del movimiento de Independencia de México.'
-                },
-
-                morelos: {
-                    title: 'José María Morelos',
-                    text: 'José María Morelos fue uno de los principales líderes insurgentes durante la lucha por la Independencia.'
-                },
-
-                allende: {
-                    title: 'Ignacio Allende',
-                    text: 'Ignacio Allende participó en la conspiración y posteriormente en el movimiento de Independencia.'
-                },
-
-                josefa: {
-                    title: 'Josefa Ortiz',
-                    text: 'Josefa Ortiz de Domínguez participó en la conspiración de Querétaro y ayudó a advertir sobre el descubrimiento de la conspiración.'
-                },
-
-                guerrero: {
-                    title: 'Vicente Guerrero',
-                    text: 'Vicente Guerrero fue uno de los líderes insurgentes que continuaron la lucha hasta la consumación de la Independencia.'
-                }
-
-            };
-
-
-            if (!heroes[hero]) {
-                return;
-            }
-
-
-            detail.innerHTML = `
-                <h2>${heroes[hero].title}</h2>
+                <h2>¿Cómo comenzó?</h2>
 
                 <p>
-                    ${heroes[hero].text}
+                    A principios del siglo XIX, la sociedad
+                    de la Nueva España estaba formada por
+                    distintos grupos sociales y existían
+                    grandes diferencias económicas y políticas.
                 </p>
-            `;
 
+                <p>
+                    Además, las ideas de libertad, igualdad
+                    y soberanía que circulaban en distintas
+                    partes del mundo influyeron en algunos
+                    habitantes de la Nueva España.
+                </p>
+
+                <p>
+                    En 1810 se descubrió una conspiración
+                    organizada en Querétaro. Después de que
+                    las autoridades conocieran el plan,
+                    los participantes tuvieron que actuar
+                    rápidamente.
+                </p>
+
+            </div>
+
+
+            <div class="history-highlight">
+
+                <h2>El inicio del movimiento</h2>
+
+                <p>
+                    En la madrugada del 16 de septiembre de
+                    1810 comenzó el levantamiento encabezado
+                    por Miguel Hidalgo y Costilla.
+                </p>
+
+                <p>
+                    El movimiento fue creciendo y reunió a
+                    numerosos habitantes que se unieron a
+                    la lucha insurgente.
+                </p>
+
+                <p>
+                    La guerra continuó durante varios años
+                    y contó con diferentes líderes y etapas.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="cards">
+
+            <div class="card">
+
+                <div class="card-icon">⚔️</div>
+
+                <h3>La lucha</h3>
+
+                <p>
+                    El movimiento pasó por diferentes etapas
+                    y fue dirigido por personajes como
+                    Miguel Hidalgo, José María Morelos,
+                    Vicente Guerrero e Ignacio Allende.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">📜</div>
+
+                <h3>Ideas políticas</h3>
+
+                <p>
+                    Durante el proceso surgieron diferentes
+                    propuestas sobre la organización política,
+                    los derechos y el futuro del territorio.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">🇲🇽</div>
+
+                <h3>La consumación</h3>
+
+                <p>
+                    En 1821 el proceso llegó a su consumación,
+                    después de más de una década de conflictos
+                    y cambios políticos.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <footer>
+            🇲🇽 Septiembre: Tradición y Patria
+        </footer>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FECHAS
+===================================================== -->
+
+<section
+    id="view-fechas"
+    class="view">
+
+    <div class="container">
+
+        <h1 class="section-title">
+            Línea del tiempo
+        </h1>
+
+        <p class="section-description">
+            Estos son algunos acontecimientos importantes
+            relacionados con el proceso de Independencia
+            de México.
+        </p>
+
+
+        <div class="timeline">
+
+
+            <div class="tl-era">
+
+                <span class="date">
+                    1808
+                </span>
+
+                <h2>
+                    Crisis política en España
+                </h2>
+
+                <p>
+                    La invasión napoleónica de España provocó
+                    una crisis política que también tuvo
+                    consecuencias en los territorios americanos.
+                </p>
+
+            </div>
+
+
+            <div class="tl-era">
+
+                <span class="date">
+                    1810
+                </span>
+
+                <h2>
+                    Conspiración de Querétaro
+                </h2>
+
+                <p>
+                    Un grupo de personas comenzó a organizar
+                    un movimiento contra el gobierno virreinal.
+                    La conspiración fue descubierta y sus
+                    participantes tuvieron que adelantar sus planes.
+                </p>
+
+            </div>
+
+
+            <div class="tl-era">
+
+                <span class="date">
+                    16 de septiembre de 1810
+                </span>
+
+                <h2>
+                    Inicio de la Independencia
+                </h2>
+
+                <p>
+                    Miguel Hidalgo llamó a levantarse contra
+                    el gobierno virreinal. Esta fecha es
+                    conmemorada actualmente como el inicio
+                    de la Independencia de México.
+                </p>
+
+            </div>
+
+
+            <div class="tl-era">
+
+                <span class="date">
+                    1811
+                </span>
+
+                <h2>
+                    Captura de Hidalgo
+                </h2>
+
+                <p>
+                    Después de diversas campañas militares,
+                    Miguel Hidalgo fue capturado. Otros líderes
+                    insurgentes continuaron el movimiento.
+                </p>
+
+            </div>
+
+
+            <div class="tl-era">
+
+                <span class="date">
+                    1813
+                </span>
+
+                <h2>
+                    Congreso de Chilpancingo
+                </h2>
+
+                <p>
+                    José María Morelos impulsó la organización
+                    política del movimiento insurgente.
+                    En este contexto se presentó el documento
+                    conocido como Sentimientos de la Nación.
+                </p>
+
+            </div>
+
+
+            <div class="tl-era">
+
+                <span class="date">
+                    1814
+                </span>
+
+                <h2>
+                    Constitución de Apatzingán
+                </h2>
+
+                <p>
+                    Los insurgentes promulgaron el Decreto
+                    Constitucional para la Libertad de la
+                    América Mexicana, conocido como Constitución
+                    de Apatzingán.
+                </p>
+
+            </div>
+
+
+            <div class="tl-era">
+
+                <span class="date">
+                    1821
+                </span>
+
+                <h2>
+                    Consumación de la Independencia
+                </h2>
+
+                <p>
+                    El proceso independentista llegó a su
+                    consumación. El Ejército Trigarante entró
+                    en la Ciudad de México el 27 de septiembre
+                    de 1821.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <footer>
+            La historia de México está formada por muchos
+            acontecimientos y personajes.
+        </footer>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PERSONAJES
+===================================================== -->
+
+<section
+    id="view-personajes"
+    class="view">
+
+    <div class="container">
+
+        <h1 class="section-title">
+            Personajes históricos
+        </h1>
+
+        <p class="section-description">
+            Conoce a algunas de las figuras más importantes
+            relacionadas con la Independencia de México.
+        </p>
+
+
+        <div class="heroes-layout">
+
+
+            <aside class="heroes-sidebar">
+
+                <h3>
+                    Personajes
+                </h3>
+
+                <button
+                    class="hero-button active"
+                    onclick="selectHero('hidalgo', this)">
+                    🕊️ Miguel Hidalgo
+                </button>
+
+                <button
+                    class="hero-button"
+                    onclick="selectHero('allende', this)">
+                    ⚔️ Ignacio Allende
+                </button>
+
+                <button
+                    class="hero-button"
+                    onclick="selectHero('josefa', this)">
+                    👩 Josefa Ortiz
+                </button>
+
+                <button
+                    class="hero-button"
+                    onclick="selectHero('morelos', this)">
+                    📜 José María Morelos
+                </button>
+
+                <button
+                    class="hero-button"
+                    onclick="selectHero('guerrero', this)">
+                    ⚔️ Vicente Guerrero
+                </button>
+
+                <button
+                    class="hero-button"
+                    onclick="selectHero('iturbide', this)">
+                    🛡️ Agustín de Iturbide
+                </button>
+
+            </aside>
+
+
+            <article
+                id="hero-detail"
+                class="hero-detail">
+
+                <div class="big-icon">
+                    🕊️
+                </div>
+
+                <h2>
+                    Miguel Hidalgo y Costilla
+                </h2>
+
+                <p>
+                    Miguel Hidalgo y Costilla fue un sacerdote
+                    y uno de los principales iniciadores del
+                    movimiento de Independencia de México.
+                </p>
+
+                <h3>
+                    Su importancia
+                </h3>
+
+                <p>
+                    Su participación fue fundamental durante
+                    el comienzo del movimiento insurgente.
+                    El levantamiento iniciado en 1810 es
+                    recordado cada año durante las celebraciones
+                    patrias.
+                </p>
+
+                <h3>
+                    El inicio del movimiento
+                </h3>
+
+                <p>
+                    Hidalgo se encontraba relacionado con la
+                    conspiración de Querétaro. Cuando el plan
+                    fue descubierto, comenzó el levantamiento
+                    que posteriormente se convertiría en una
+                    larga guerra por la Independencia.
+                </p>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     TRADICIONES
+===================================================== -->
+
+<section
+    id="view-tradiciones"
+    class="view">
+
+    <div class="container">
+
+        <h1 class="section-title">
+            Tradiciones de septiembre
+        </h1>
+
+        <p class="section-description">
+            Durante septiembre, México se llena de colores,
+            música, comida y actividades relacionadas con
+            la celebración de las fiestas patrias.
+        </p>
+
+
+        <div class="traditions">
+
+
+            <div class="tradition">
+
+                <h3>🇲🇽 El Grito de Independencia</h3>
+
+                <p>
+                    La noche del 15 de septiembre se realizan
+                    ceremonias conocidas como el Grito de
+                    Independencia. Autoridades y ciudadanos
+                    participan en celebraciones públicas.
+                </p>
+
+            </div>
+
+
+            <div class="tradition">
+
+                <h3>🎆 Fuegos artificiales</h3>
+
+                <p>
+                    En diferentes lugares del país se realizan
+                    espectáculos de luces y fuegos artificiales
+                    durante las celebraciones patrias.
+                </p>
+
+            </div>
+
+
+            <div class="tradition">
+
+                <h3>🎺 Música mexicana</h3>
+
+                <p>
+                    La música tradicional mexicana tiene una
+                    presencia importante durante las fiestas,
+                    especialmente las canciones interpretadas
+                    por mariachis y otros grupos musicales.
+                </p>
+
+            </div>
+
+
+            <div class="tradition">
+
+                <h3>🌮 Gastronomía</h3>
+
+                <p>
+                    Las fiestas patrias también son una ocasión
+                    para preparar platillos mexicanos como
+                    pozole, tamales, tacos, enchiladas y otros
+                    alimentos tradicionales.
+                </p>
+
+            </div>
+
+
+            <div class="tradition">
+
+                <h3>🎀 Decoración tricolor</h3>
+
+                <p>
+                    Calles, escuelas, plazas y casas suelen
+                    decorarse con los colores verde, blanco
+                    y rojo, creando un ambiente festivo.
+                </p>
+
+            </div>
+
+
+            <div class="tradition">
+
+                <h3>🎉 Reuniones familiares</h3>
+
+                <p>
+                    Muchas familias aprovechan estas fechas
+                    para reunirse, compartir comida y disfrutar
+                    de las celebraciones.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <div style="height:35px"></div>
+
+
+        <h2 class="section-title">
+            Datos de las fiestas patrias
+        </h2>
+
+
+        <div class="facts">
+
+            <div class="fact">
+                <strong>15</strong>
+                <span>
+                    de septiembre: celebración
+                    del Grito de Independencia
+                </span>
+            </div>
+
+            <div class="fact">
+                <strong>16</strong>
+                <span>
+                    de septiembre: conmemoración
+                    del inicio de la Independencia
+                </span>
+            </div>
+
+            <div class="fact">
+                <strong>1821</strong>
+                <span>
+                    año de la consumación
+                    de la Independencia
+                </span>
+            </div>
+
+            <div class="fact">
+                <strong>🇲🇽</strong>
+                <span>
+                    colores representativos
+                    de la bandera mexicana
+                </span>
+            </div>
+
+        </div>
+
+
+        <footer>
+            ¡Viva México! 🇲🇽
+        </footer>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MITOS
+===================================================== -->
+
+<section
+    id="view-mitos"
+    class="view">
+
+    <div class="container">
+
+        <h1 class="section-title">
+            Mitos y realidades
+        </h1>
+
+        <p class="section-description">
+            Algunas preguntas frecuentes sobre la
+            Independencia y las celebraciones patrias.
+        </p>
+
+
+        <div class="accordion">
+
+
+            <div class="accordion-item">
+
+                <button
+                    class="accordion-question"
+                    onclick="toggleAccordion(this)">
+                    🇲🇽 ¿La Independencia comenzó el 16 de septiembre?
+                </button>
+
+                <div class="accordion-answer">
+                    El 16 de septiembre de 1810 se considera
+                    la fecha de inicio del movimiento de
+                    Independencia. La conmemoración se realiza
+                    cada año como una de las principales fiestas
+                    nacionales.
+                </div>
+
+            </div>
+
+
+            <div class="accordion-item">
+
+                <button
+                    class="accordion-question"
+                    onclick="toggleAccordion(this)">
+                    🔔 ¿Qué representa el Grito?
+                </button>
+
+                <div class="accordion-answer">
+                    El Grito de Independencia es una ceremonia
+                    cívica que recuerda el comienzo del
+                    movimiento insurgente de 1810.
+                </div>
+
+            </div>
+
+
+            <div class="accordion-item">
+
+                <button
+                    class="accordion-question"
+                    onclick="toggleAccordion(this)">
+                    👤 ¿Miguel Hidalgo fue el único líder?
+                </button>
+
+                <div class="accordion-answer">
+                    No. Participaron numerosos personajes.
+                    Entre ellos estuvieron Ignacio Allende,
+                    José María Morelos, Josefa Ortiz de
+                    Domínguez y posteriormente Vicente Guerrero.
+                </div>
+
+            </div>
+
+
+            <div class="accordion-item">
+
+                <button
+                    class="accordion-question"
+                    onclick="toggleAccordion(this)">
+                    ⚔️ ¿La Independencia duró solamente un año?
+                </button>
+
+                <div class="accordion-answer">
+                    No. El proceso fue mucho más largo.
+                    El movimiento comenzó en 1810 y llegó
+                    a su consumación en 1821.
+                </div>
+
+            </div>
+
+
+            <div class="accordion-item">
+
+                <button
+                    class="accordion-question"
+                    onclick="toggleAccordion(this)">
+                    🇲🇽 ¿Por qué se utilizan los colores verde,
+                    blanco y rojo?
+                </button>
+
+                <div class="accordion-answer">
+                    Son los colores de la bandera de México
+                    y forman parte de la identidad nacional.
+                    Durante septiembre aparecen en muchas
+                    decoraciones y celebraciones.
+                </div>
+
+            </div>
+
+
+            <div class="accordion-item">
+
+                <button
+                    class="accordion-question"
+                    onclick="toggleAccordion(this)">
+                    📅 ¿La consumación ocurrió en 1810?
+                </button>
+
+                <div class="accordion-answer">
+                    No. El inicio del movimiento ocurrió en
+                    1810, mientras que la consumación de la
+                    Independencia ocurrió en 1821.
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <footer>
+            Conocer la historia ayuda a comprender
+            la identidad de México. 🇲🇽
+        </footer>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =========================================================
+   CAMBIO DE VISTAS — SPA
+========================================================= */
+
+function showView(name) {
+
+    /*
+       Ocultamos todas las vistas
+    */
+
+    document
+        .querySelectorAll('.view')
+        .forEach(view => {
+
+            view.classList.remove('active');
+
+        });
+
+
+    /*
+       Buscamos la vista solicitada
+    */
+
+    const selectedView =
+        document.getElementById(
+            'view-' + name
+        );
+
+
+    /*
+       La mostramos
+    */
+
+    if (selectedView) {
+
+        selectedView.classList.add('active');
+
+        /*
+           El scroll pertenece a la vista,
+           no a toda la página.
+        */
+
+        selectedView.scrollTop = 0;
+    }
+
+
+    /*
+       Cambiar botón activo
+    */
+
+    document
+        .querySelectorAll('.nav-links button')
+        .forEach(button => {
+
+            button.classList.toggle(
+                'active',
+                button.dataset.view === name
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   PERSONAJES
+========================================================= */
+
+function selectHero(hero, button) {
+
+
+    /*
+       Quitar activo de todos
+    */
+
+    document
+        .querySelectorAll('.hero-button')
+        .forEach(btn => {
+
+            btn.classList.remove('active');
+
+        });
+
+
+    /*
+       Activar botón seleccionado
+    */
+
+    if (button) {
+        button.classList.add('active');
+    }
+
+
+    const detail =
+        document.getElementById(
+            'hero-detail'
+        );
+
+
+    const heroes = {
+
+
+        hidalgo: {
+
+            icon: "🕊️",
+
+            title:
+                "Miguel Hidalgo y Costilla",
+
+            description:
+                "Sacerdote e iniciador del movimiento de Independencia.",
+
+            importance:
+                "Miguel Hidalgo es uno de los personajes más importantes de la historia de México. Su participación fue fundamental en el inicio del movimiento insurgente de 1810.",
+
+            extra:
+                "Estaba relacionado con la conspiración de Querétaro. Cuando la conspiración fue descubierta, el movimiento tuvo que comenzar antes de lo planeado."
+        },
+
+
+        allende: {
+
+            icon: "⚔️",
+
+            title:
+                "Ignacio Allende",
+
+            description:
+                "Militar e insurgente que participó en los primeros momentos de la Independencia.",
+
+            importance:
+                "Ignacio Allende fue uno de los principales participantes de la conspiración de Querétaro y posteriormente participó en las primeras campañas insurgentes.",
+
+            extra:
+                "Su experiencia militar fue importante para la organización de las fuerzas que participaron en el comienzo del movimiento."
+        },
+
+
+        josefa: {
+
+            icon: "👩",
+
+            title:
+                "Josefa Ortiz de Domínguez",
+
+            description:
+                "Participante de la conspiración de Querétaro.",
+
+            importance:
+                "Josefa Ortiz de Domínguez tuvo un papel importante al advertir a los conspiradores de que las autoridades habían descubierto sus planes.",
+
+            extra:
+                "Su aviso permitió que los participantes actuaran rápidamente y es recordada como una figura importante del proceso independentista."
+        },
+
+
+        morelos: {
+
+            icon: "📜",
+
+            title:
+                "José María Morelos y Pavón",
+
+            description:
+                "Uno de los principales líderes de la segunda etapa de la insurgencia.",
+
+            importance:
+                "Morelos dirigió importantes campañas insurgentes y promovió la organización política del movimiento.",
+
+            extra:
+                "En 1813 presentó los Sentimientos de la Nación, un documento fundamental para conocer las ideas políticas de los insurgentes."
+        },
+
+
+        guerrero: {
+
+            icon: "⚔️",
+
+            title:
+                "Vicente Guerrero",
+
+            description:
+                "Líder insurgente que continuó la lucha hasta la consumación.",
+
+            importance:
+                "Vicente Guerrero mantuvo la resistencia insurgente durante años y posteriormente tuvo un papel decisivo en la consumación de la Independencia.",
+
+            extra:
+                "En 1821 se unió con Agustín de Iturbide mediante el proceso que llevó a la formación del Ejército Trigarante."
+        },
+
+
+        iturbide: {
+
+            icon: "🛡️",
+
+            title:
+                "Agustín de Iturbide",
+
+            description:
+                "Militar que participó en la etapa final del proceso independentista.",
+
+            importance:
+                "Iturbide llegó a un acuerdo con Vicente Guerrero y encabezó el Ejército Trigarante durante la etapa final.",
+
+            extra:
+                "El Ejército Trigarante entró en la Ciudad de México el 27 de septiembre de 1821, fecha asociada con la consumación de la Independencia."
         }
 
+    };
 
 
-        /* =========================
-           ACORDEÓN
-        ========================= */
-
-        function toggleAccordion(button) {
-
-            const item =
-                button.parentElement;
+    if (!heroes[hero]) {
+        return;
+    }
 
 
-            item.classList.toggle('open');
-
-        }
-
+    const data =
+        heroes[hero];
 
 
-        /* =========================
-           INICIO
-        ========================= */
+    detail.innerHTML = `
 
-        showView('inicio');
+        <div class="big-icon">
+            ${data.icon}
+        </div>
 
-    </script>
+        <h2>
+            ${data.title}
+        </h2>
+
+        <p>
+            ${data.description}
+        </p>
+
+        <h3>
+            Su importancia
+        </h3>
+
+        <p>
+            ${data.importance}
+        </p>
+
+        <h3>
+            Más información
+        </h3>
+
+        <p>
+            ${data.extra}
+        </p>
+
+    `;
+
+}
+
+
+/* =========================================================
+   ACORDEÓN
+========================================================= */
+
+function toggleAccordion(button) {
+
+    const item =
+        button.parentElement;
+
+
+    /*
+       Cerramos los demás
+       para que solamente uno
+       esté abierto.
+    */
+
+    document
+        .querySelectorAll('.accordion-item')
+        .forEach(other => {
+
+            if (other !== item) {
+
+                other.classList.remove('open');
+
+            }
+
+        });
+
+
+    /*
+       Abrimos/cerramos
+       el seleccionado.
+    */
+
+    item.classList.toggle('open');
+
+}
+
+
+/* =========================================================
+   INICIAR EN INICIO
+========================================================= */
+
+showView('inicio');
+
+
+</script>
 
 </body>
 </html>
